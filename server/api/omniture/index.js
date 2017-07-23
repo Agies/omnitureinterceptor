@@ -4,7 +4,7 @@ var router = express.Router();
 
 router.all('/b/ss/:client/0/OIP-4.5.2/:code', (req, res) => {
   var data = {
-    ip: req.ip || req.connection.remoteAddress,
+    ip: req.ips || req.ip,
     client: req.params.client,
     code: req.params.code,
     body: req.body

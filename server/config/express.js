@@ -39,7 +39,7 @@ export default function(app) {
   app.use(bodyParser.json());
   app.use(methodOverride());
   app.use(cookieParser());
-
+  app.set('trust proxy', true);
 
   if(env === 'development') {
     const webpackDevMiddleware = require('webpack-dev-middleware');
