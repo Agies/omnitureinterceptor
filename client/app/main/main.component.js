@@ -7,9 +7,10 @@ export class MainController {
   messages = [];
 
   /*@ngInject*/
-  constructor($http, $scope) {
+  constructor($http, $scope, socket) {
+    this.socket = socket;
     this.$http = $http;
-    $scope.$on('config', (event, data) => {
+    $scope.$on('', (event, data) => {
       this.messages.push(data);
     });
   }

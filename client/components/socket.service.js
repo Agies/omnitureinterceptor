@@ -19,9 +19,9 @@ export function socketService($rootScope, $timeout) {
     console.log('socket disconnected');
   });
   socket.on('', data => {
-    console.log(stats, data);
+    console.log('received', data);
     $timeout(() => {
-      $rootScope.$broadcast(stats, data);
+      $rootScope.$broadcast('', data);
     }, 1);
   });
   var service = {

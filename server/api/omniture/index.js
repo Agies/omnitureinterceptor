@@ -13,3 +13,5 @@ router.all('/b/ss/:client/0/OIP-4.5.2/:code', (req, res) => {
   io.broadcast('', data);
   res.send(data);
 });
+
+module.exports = router;
