@@ -4,18 +4,18 @@ import routing from './main.routes';
 
 export class MainController {
 
-  awesomeThings = [];
+  messages = [];
 
   /*@ngInject*/
-  constructor($http) {
+  constructor($http, $scope) {
     this.$http = $http;
+    $scope.$on('config', (event, data) => {
+      this.messages.push(data);
+    });
   }
 
   $onInit() {
-    this.$http.get('/api/things')
-      .then(response => {
-        this.awesomeThings = response.data;
-      });
+    
   }
 }
 

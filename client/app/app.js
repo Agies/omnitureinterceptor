@@ -18,11 +18,12 @@ import footer from '../components/footer/footer.component';
 import main from './main/main.component';
 import constants from './app.constants';
 import util from '../components/util/util.module';
+import socket from '../components/socket.service';
 
 import './app.css';
 
 angular.module('omnitureInterceptorApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
-  navbar, footer, main, constants, util
+  navbar, footer, main, constants, util, socket
 ])
   .config(routeConfig);
 
