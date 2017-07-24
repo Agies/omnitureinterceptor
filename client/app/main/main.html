@@ -1,10 +1,45 @@
-<div class="container">
+<div class="container-fluid">
   <div class="row">
-    <div class="col-lg-12">
-      <h1 class="page-header">Messages:</h1>
-      <div ng-repeat="message in $ctrl.messages">
-        {{message}}
+    <div class="col-sm-6">
+      <h3 class="pull-left">Hits <span class="badge">{{$ctrl.messages.length}}</span></h3>
+      <h3 class="pull-right fa fa-2x fa-trash"></h3>
+      <h3 class="pull-right fa fa-2x fa-arrow-circle-o-right"></h3>
+      <table class="table table-bordered table-hover table-responsive">
+        <thead>
+          <tr>
+            <th>Hit</th>
+            <th>Device</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="message in $ctrl.messages">
+            <td>{{message.event}}</td>
+            <td>{{message.deviceName}}</td>
+            <td>{{message.timeStamp | date:'mediumTime'}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-6">
+      <div style="border: solid 1px #cccccc; padding: 0px 10px;">
+        <h4><span class="fa fa-chevron-down"></span> Hit Details</h4>
+        <h5><span class="alert-info">App Id:</span> {{$ctrl.selectedMessage.appId}}</h5>
+        <h5><span>OS Version:</span> {{$ctrl.selectedMessage.osVersion}}</h5>
+        <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.timeSinceLaunch}}</h5>
       </div>
+      <h3>Context Data</h3>
+      <table class="table table-bordered table-hover table-responsive">
+        <thead>
+          <tr>
+            <th>Key</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

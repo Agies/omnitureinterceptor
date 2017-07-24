@@ -5,7 +5,7 @@ const stats = 'stats';
 
 /*@ngInject*/
 export function socketService($rootScope, $timeout) {
-  var socket = io.connect('/');
+  var socket = io.connect('https://omnitureinterceptor.herokuapp.com/');
   socket.on('connect', () => {
     console.log('socket connected');
   });
