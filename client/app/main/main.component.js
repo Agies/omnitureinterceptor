@@ -2,6 +2,7 @@ import angular from 'angular';
 import uiRouter from 'angular-ui-router';
 import routing from './main.routes';
 
+const blackList = ['.nac', '.c', 'pe', 'pev2', 't', 'aid', 'nac.', 'ndh', 'ts', 'ce', 'c.', 'a.', '.a', 'AppID', 'action', 'DeviceName', 'OSVersion', 'RunMode', 'Resolution', 'CarrierName', 'TimeSinceLaunch'];
 export class MainController {
 
   messages = [{
@@ -36,16 +37,25 @@ export class MainController {
       "aid": "91BDEEDA544E426D-89BE9FEAB326760E"
     }
   }];
+  selectedMessage = null;
 
   /*@ngInject*/
   constructor($http, $scope, socket) {
     this.socket = socket;
     this.$http = $http;
     this.messages = this.messages.map(m => this.formatData(m));
+    this.selectRow(this.messages[0]);
     $scope.$on('', (event, data) => {
       var result = this.formatData(data);
       this.messages.push(result);
     });
+  }
+  selectRow(message) {
+    this.messages.forEach(m => {
+      m.active = false;
+    });
+    message.active = true;
+    this.selectedMessage = message;
   }
   formatData(data) {
     var result = {
@@ -60,6 +70,16 @@ export class MainController {
       },
       context: []
     };
+    for(var key in data.body) {
+      var value = data.body[key];
+      if(blackList.indexOf(key) >= 0) {
+        continue;
+      }
+      result.context.push({
+        key,
+        value
+      });
+    }
     return result;
   }
   $onInit() {

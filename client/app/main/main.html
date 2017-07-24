@@ -13,7 +13,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="message in $ctrl.messages">
+          <tr ng-class="{active: message.active}" ng-click="$ctrl.selectRow(message)" ng-repeat="message in $ctrl.messages">
             <td>{{message.event}}</td>
             <td>{{message.deviceName}}</td>
             <td>{{message.timeStamp | date:'mediumTime'}}</td>
@@ -24,9 +24,9 @@
     <div class="col-sm-6">
       <div style="border: solid 1px #cccccc; padding: 0px 10px;">
         <h4><span class="fa fa-chevron-down"></span> Hit Details</h4>
-        <h5><span class="alert-info">App Id:</span> {{$ctrl.selectedMessage.appId}}</h5>
-        <h5><span>OS Version:</span> {{$ctrl.selectedMessage.osVersion}}</h5>
-        <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.timeSinceLaunch}}</h5>
+        <h5><span>App Id:</span> {{$ctrl.selectedMessage.details.appId}}</h5>
+        <h5><span>OS Version:</span> {{$ctrl.selectedMessage.details.osVersion}}</h5>
+        <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.details.timeSinceLaunch}}</h5>
       </div>
       <h3>Context Data</h3>
       <table class="table table-bordered table-hover table-responsive">
@@ -37,7 +37,10 @@
           </tr>
         </thead>
         <tbody>
-
+          <tr ng-repeat="c in $ctrl.selectedMessage.context">
+            <td>{{c.key}}</td>
+            <td>{{c.value}}</td>
+          </tr>
         </tbody>
       </table>
     </div>
