@@ -12,13 +12,13 @@ export class MainController {
   constructor($http, $scope, socket) {
     this.socket = socket;
     this.$http = $http;
-    this.selectRow(this.messages[0]);
     $scope.$on('', (event, data) => {
       var result = this.formatData(data);
       this.messages.push(result);
     });
   }
   selectRow(message) {
+    if(!message) return;
     this.messages.forEach(m => {
       m.active = false;
     });
