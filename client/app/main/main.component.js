@@ -14,9 +14,12 @@ export class MainController {
     this.$document = $document;
     this.socket = socket;
     this.$http = $http;
-    $scope.$on('', (event, data) => {
+    this.listen('');
+  }
+  listen(filter) {
+    this.socket.listen(filter).then(null, null, data => {
       var result = this.formatData(data);
-      this.messages.push(result);
+      this.messages.splice(0, 0, result);
     });
   }
   $onInit() {
@@ -35,10 +38,16 @@ export class MainController {
   }
   addFilter() {
     this.filters.push(this.newFilter);
+    this.socket.unlisten('');
+    this.listen(this.newFilter);
     this.newFilter = '';
   }
   removeFilter(filter) {
     this.filters = this.filters.filter(f => f != filter);
+    this.socket.unlisten(filter);
+    if(this.filters.length == 0) {
+      this.listen('');
+    }
   }
   selectRow(message) {
     if(!message) return;
@@ -48,7 +57,21 @@ export class MainController {
     message.active = true;
     this.selectedMessage = message;
     document.getElementById(message.id).focus();
-    // document.activeElement.scrollIntoView();
+  }
+  export() {
+    var csvContent = 'data:application/octet-stream,';
+    this.messages.forEach(m => {
+      csvContent += `"${m.timeStamp}","${m.event}","${m.deviceName}","${m.client}"`;
+      m.context.forEach(c => {
+        csvContent += `,"${c.value}"`;
+      });
+      csvContent += '\n';
+    });
+    var encoded = encodeURI(csvContent);
+    window.open(encoded);
+  }
+  trash() {
+    this.messages = [];
   }
   formatData(data) {
     var result = {

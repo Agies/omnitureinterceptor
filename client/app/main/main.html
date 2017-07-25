@@ -1,13 +1,13 @@
 <div class="container-fluid">
   <div class="row">
     <div class="col-md-6">
-      Filter:
+      <span style="font-weight: bold;">Filter:</span>
       <ul class="pills">
         <li ng-repeat="filter in $ctrl.filters">{{filter}}<span style="margin-left: 3px;" class="fa fa-times" ng-click="$ctrl.removeFilter(filter)"></span></li>
       </ul>
       <div class="row">
-        <h3 class="col-xs-2">Hits <span class="badge">{{$ctrl.messages.length}}</span></h3>
-        <h3 class="col-xs-8">
+        <h3 class="col-xs-3">Hits <span class="badge">{{$ctrl.messages.length}}</span></h3>
+        <h3 class="col-xs-6">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Enter Client or Device" ng-model="$ctrl.newFilter">
             <span class="input-group-btn">
@@ -15,7 +15,11 @@
             </span>
           </div>
         </h3>
-        <h3 class="col-xs-2" style="text-align: right;"><span class="fa fa-trash"></span><span class="fa fa-arrow-circle-o-right"></span></h3>
+        <h3 class="col-xs-3" style="text-align: right;">
+          <span class="fa fa-arrow-circle-o-right" ng-click="$ctrl.export()"></span>
+          &nbsp;
+          <span class="fa fa-trash" ng-click="$ctrl.trash()"></span>
+        </h3>
       </div>
       <div style="clear: both"></div>
       <table id="hitsTable" class="table table-bordered">
@@ -29,7 +33,7 @@
         <tbody>
           <tr>
             <td colspan="3" style="padding: 0px;">
-              <div grow offset="180" class="table-scroll">
+              <div grow offset="200" class="table-scroll">
                 <table class="table table-hover" style="margin: 0px;">
                   <tr ng-keydown="$ctrl.rowPress($event)" id="{{message.id}}" tabindex="{{$index}}" ng-class="{active: message.active}" ng-click="$ctrl.selectRow(message)"
                     ng-repeat="message in $ctrl.messages">

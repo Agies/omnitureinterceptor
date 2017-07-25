@@ -1,10 +1,8 @@
 'use strict';
 const angular = require('angular');
-const config = 'config';
-const stats = 'stats';
 
 /*@ngInject*/
-export function socketService($rootScope, $timeout) {
+export function socketService($rootScope, $timeout, $q) {
   var socket = io.connect('https://omnitureinterceptor.herokuapp.com/');
   socket.on('connect', () => {
     console.log('socket connected');
@@ -18,17 +16,23 @@ export function socketService($rootScope, $timeout) {
   socket.on('disconnect', () => {
     console.log('socket disconnected');
   });
-  socket.on('', data => {
-    console.log('received', data);
-    $timeout(() => {
-      $rootScope.$broadcast('', data);
-    }, 1);
-  });
+  function listen(event) {
+    var deferred = $q.defer();
+    socket.on(event, data => {
+      $timeout(() => {
+        deferred.notify(data);
+      }, 1);
+    });
+    console.log('Subscribed to: ', event);
+    return deferred.promise;
+  }
+  function unlisten(event) {
+    socket.off(event);
+    console.log('Unsubscribed from: ', event);
+  }
   var service = {
-    events: {
-      config,
-      stats,
-    },
+    listen,
+    unlisten,
     socket
   };
   return service;
