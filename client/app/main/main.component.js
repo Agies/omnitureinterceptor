@@ -79,7 +79,7 @@ export class MainController {
       client: data.client,
       deviceName: data.body.deviceName,
       event: data.body.action || data.body.pageName,
-      timeStamp: data.body.timeStamp,
+      timeStamp: data.body.timeStamp || data.body['nac.timeStamp'],
       details: {
         osVersion: data.body.OSVersion,
         appId: data.body.AppID,
