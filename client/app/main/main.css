@@ -21,3 +21,14 @@
 .navbar-text {
   margin-left: 15px;
 }
+
+.table-scroll {
+  overflow:auto;
+}
+
+#hitsTable td, th {
+  max-width: 180px;
+  width: 180px;
+  overflow: auto;
+  text-overflow: ellipsis;
+}

@@ -4,19 +4,28 @@
       <h3 class="pull-left">Hits <span class="badge">{{$ctrl.messages.length}}</span></h3>
       <h3 class="pull-right fa fa-2x fa-trash"></h3>
       <h3 class="pull-right fa fa-2x fa-arrow-circle-o-right"></h3>
-      <table class="table table-bordered table-hover table-responsive">
+      <div style="clear: both"></div>
+      <table id="hitsTable" class="table table-bordered">
         <thead>
           <tr>
-            <th>Hit</th>
-            <th>Device</th>
-            <th>Time</th>
+            <th >Hit</th>
+            <th style="width: 140px;">Device</th>
+            <th style="width: 120px;">Time</th>
           </tr>
         </thead>
         <tbody>
-          <tr ng-class="{active: message.active}" ng-click="$ctrl.selectRow(message)" ng-repeat="message in $ctrl.messages">
-            <td>{{message.event}}</td>
-            <td>{{message.deviceName}}</td>
-            <td>{{message.timeStamp | date:'mediumTime'}}</td>
+          <tr>
+            <td colspan="3" style="padding: 0px;">
+              <div grow offset="180" class="table-scroll">
+                <table class="table table-hover" style="margin: 0px;">
+                  <tr ng-keydown="$ctrl.rowPress($event)" id="{{message.id}}" tabindex="{{$index}}" ng-class="{active: message.active}" ng-click="$ctrl.selectRow(message)" ng-repeat="message in $ctrl.messages">
+                    <td >{{message.event}}</td>
+                    <td style="width: 140px;">{{message.deviceName}}</td>
+                    <td style="width: 120px;">{{message.timeStamp | date:'mediumTime'}}</td>
+                  </tr>
+                </table>
+              </div>
+            </td>
           </tr>
         </tbody>
       </table>
@@ -24,6 +33,7 @@
     <div class="col-md-6">
       <div style="border: solid 1px #cccccc; padding: 0px 10px;">
         <h4><span class="fa fa-chevron-down"></span> Hit Details</h4>
+        <h5><span>Client:</span> {{$ctrl.selectedMessage.client}}</h5>
         <h5><span>App Id:</span> {{$ctrl.selectedMessage.details.appId}}</h5>
         <h5><span>OS Version:</span> {{$ctrl.selectedMessage.details.osVersion}}</h5>
         <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.details.timeSinceLaunch}}</h5>

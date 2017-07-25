@@ -25,7 +25,22 @@ import './app.css';
 angular.module('omnitureInterceptorApp', [ngCookies, ngResource, ngSanitize, uiRouter, uiBootstrap,
   navbar, footer, main, constants, util, socket
 ])
-  .config(routeConfig);
+  .config(routeConfig)
+  .directive('grow', /*@ngInject*/ $window => {
+    function resize(elem, attrs) {
+      var height = $window.innerHeight;
+      var offset = attrs.offset || 0;
+      elem.css('height', (height - offset) + 'px');
+    }
+    return {
+      link: (scope, elem, attrs) => {
+        resize(elem, attrs);
+        angular.element($window).on('resize', () => {
+          resize(elem, attrs);
+        });
+      }
+    };
+  });
 
 angular.element(document)
   .ready(() => {

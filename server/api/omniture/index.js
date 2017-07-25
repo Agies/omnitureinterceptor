@@ -10,6 +10,7 @@ router.all('/b/ss/:client/0/OIP-4.5.2/:code', (req, res) => {
   };
   console.log(data);
   io.broadcast('', data);
+  //POST req.body to omniture url -> https://alliancedata.sc.omtrdc.net/b/ss/${req.params.client}/0/OIP-4.5.2/${req.params.code}
   res.send(data);
 });
 
