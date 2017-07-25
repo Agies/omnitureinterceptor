@@ -3,6 +3,7 @@ var io = require('../../components/websocket');
 var router = express.Router();
 
 router.all('/b/ss/:client/0/OIP-4.5.2/:code', (req, res) => {
+  req.body.deviceName = req.body.deviceName || req.body.DeviceName;
   var data = {
     ip: req.ips || req.ip,
     client: req.params.client,
