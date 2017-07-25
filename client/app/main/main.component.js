@@ -7,6 +7,7 @@ export class MainController {
 
   messages = [];
   selectedMessage = null;
+  filters = [];
 
   /*@ngInject*/
   constructor($http, $scope, $document, socket) {
@@ -31,6 +32,13 @@ export class MainController {
         this.selectRow(this.messages[index + 1]);
       }
     }
+  }
+  addFilter() {
+    this.filters.push(this.newFilter);
+    this.newFilter = '';
+  }
+  removeFilter(filter) {
+    this.filters = this.filters.filter(f => f != filter);
   }
   selectRow(message) {
     if(!message) return;

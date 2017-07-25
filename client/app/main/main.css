@@ -32,3 +32,19 @@
   overflow: auto;
   text-overflow: ellipsis;
 }
+
+.pills {
+  list-style-type: none;
+  display: inline;
+  padding: 0px;
+}
+
+.pills li {
+  display: inline;
+  border: 1px solid #555555;
+  border-radius: 8px;
+  padding: 3px 5px;
+  background: #555555;
+  color: #eeeeee;
+  margin-right: 3px;
+}
