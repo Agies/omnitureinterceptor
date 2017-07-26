@@ -8,6 +8,7 @@ export class MainController {
   messages = [];
   selectedMessage = null;
   filters = [];
+  paused = false;
 
   /*@ngInject*/
   constructor($http, $scope, $document, socket) {
@@ -69,6 +70,26 @@ export class MainController {
     });
     var encoded = encodeURI(csvContent);
     window.open(encoded);
+  }
+  pause() {
+    this.paused = !this.paused;
+    if(this.paused) {
+      if(this.filters.length == 0) {
+        this.socket.unlisten('');
+      } else {
+        this.filters.forEach(m => {
+          this.socket.unlisten(m);
+        });
+      }
+    } else {
+      if(this.filters.length == 0) {
+        this.listen('');
+      } else {
+        this.filters.forEach(m => {
+          this.listen(m);
+        });
+      }
+    }
   }
   trash() {
     this.messages = [];

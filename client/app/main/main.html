@@ -6,7 +6,7 @@
         <li ng-repeat="filter in $ctrl.filters">{{filter}}<span style="margin-left: 3px;" class="fa fa-times" ng-click="$ctrl.removeFilter(filter)"></span></li>
       </ul>
       <div class="row">
-        <h3 class="col-xs-3">Hits <span class="badge">{{$ctrl.messages.length}}</span></h3>
+        <h3 class="col-xs-3">Hits <span class="badge bg-info">{{$ctrl.messages.length}}</span></h3>
         <h3 class="col-xs-6">
           <div class="input-group">
             <input type="text" class="form-control" placeholder="Enter Client or Device" ng-model="$ctrl.newFilter">
@@ -16,12 +16,16 @@
           </div>
         </h3>
         <h3 class="col-xs-3" style="text-align: right;">
-          <span class="fa fa-arrow-circle-o-right" ng-click="$ctrl.export()"></span>
-          &nbsp;
-          <span class="fa fa-trash" ng-click="$ctrl.trash()"></span>
+          <button class="fa fa-pause btn btn-warning" ng-class="{active: $ctrl.paused}" ng-click="$ctrl.pause()"></button>
+          <span class="fa fa-arrow-circle-o-right btn" style="padding:0; margin:0;" ng-click="$ctrl.export()"></span>
+          <span class="fa fa-trash btn" style="padding:0; margin:0;" ng-click="$ctrl.trash()"></span>
         </h3>
       </div>
       <div style="clear: both"></div>
+      <div ng-show="$ctrl.paused" class="alert alert-warning" style="text-align: center">
+        <strong>Paused</strong>
+      </div>
+      <input type="search" ng-model="$ctrl.search" class="form-control" placeholder="Enter search criteria...">
       <table id="hitsTable" class="table table-bordered">
         <thead>
           <tr>
@@ -36,7 +40,7 @@
               <div grow offset="200" class="table-scroll">
                 <table class="table table-hover" style="margin: 0px;">
                   <tr ng-keydown="$ctrl.rowPress($event)" id="{{message.id}}" tabindex="{{$index}}" ng-class="{active: message.active}" ng-click="$ctrl.selectRow(message)"
-                    ng-repeat="message in $ctrl.messages">
+                    ng-repeat="message in $ctrl.messages | filter: $ctrl.search">
                     <td>{{message.event}}</td>
                     <td style="width: 140px;">{{message.deviceName}}</td>
                     <td style="width: 120px;">{{message.timeStamp | date:'mediumTime'}}</td>
@@ -49,28 +53,36 @@
       </table>
     </div>
     <div class="col-md-6">
-      <div style="border: solid 1px #cccccc; padding: 0px 10px;">
-        <h4><span class="fa fa-chevron-down"></span> Hit Details</h4>
-        <h5><span>Client:</span> {{$ctrl.selectedMessage.client}}</h5>
-        <h5><span>App Id:</span> {{$ctrl.selectedMessage.details.appId}}</h5>
-        <h5><span>OS Version:</span> {{$ctrl.selectedMessage.details.osVersion}}</h5>
-        <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.details.timeSinceLaunch}}</h5>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4><span class="fa fa-chevron-down"></span> Hit Details</h4>
+        </div>
+        <div class="panel-body">
+          <h5><span>Client:</span> {{$ctrl.selectedMessage.client}}</h5>
+          <h5><span>App Id:</span> {{$ctrl.selectedMessage.details.appId}}</h5>
+          <h5><span>OS Version:</span> {{$ctrl.selectedMessage.details.osVersion}}</h5>
+          <h5><span>Time Since Launch:</span> {{$ctrl.selectedMessage.details.timeSinceLaunch}}</h5>
+        </div>
       </div>
-      <h3>Context Data</h3>
-      <table class="table table-bordered table-hover table-responsive">
-        <thead>
-          <tr>
-            <th>Key</th>
-            <th>Value</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr ng-repeat="c in $ctrl.selectedMessage.context">
-            <td>{{c.key}}</td>
-            <td>{{c.value}}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4>Context Data</h4>
+        </div>
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Key</th>
+              <th>Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="c in $ctrl.selectedMessage.context">
+              <td>{{c.key}}</td>
+              <td>{{c.value}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>
