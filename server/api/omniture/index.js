@@ -14,7 +14,7 @@ router.all('/b/ss/:client/0/:platform/:code', (req, res) => {
     client: req.params.client,
     body: req.body
   };
-  console.log(data);
+  // console.log(data);
   io.broadcast('', data);
   if(data.client) {
     io.broadcast(data.client, data);
@@ -27,11 +27,11 @@ router.all('/b/ss/:client/0/:platform/:code', (req, res) => {
     url: url,
     form: req.body
   }, (error, resp, body) => {
-    console.log('Forwarded', url);
+    // console.log('Forwarded', url);
     if(error) {
       console.error('Omniture call failed', error);
     } else {
-      console.log('Omniture call succeeded', resp, body);
+      // console.log('Omniture call succeeded', resp, body);
     }
   });
   res.send(data);
